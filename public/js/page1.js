@@ -53,6 +53,8 @@ function loadMap(data) {
           return d.year == 2013;
         })
 
+        data.sort(order);
+
 
         var svg = d3.select("#chart").append("svg")
           .attr("width", width + margin.left + margin.right)
@@ -184,7 +186,7 @@ function loadMap(data) {
         }
 
         function order(a, b) {
-          return radius(b) - radius(a);
+          return b.total - a.total;
         }
 }
 
