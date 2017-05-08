@@ -247,7 +247,7 @@ function showNeighbors(results, school_id) {
       .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
 
   bar.append("text")
-      .attr("x", 260)
+      .attr("x", 280)
       .attr("y", barHeight / 2)
       .attr("text-anchor", "end")
       .attr("dy", ".35em")
@@ -255,7 +255,7 @@ function showNeighbors(results, school_id) {
           return d.name + "  "});
       
   bar.append("rect")
-      .attr("x", 265)
+      .attr("x", 285)
       .attr("width", function(d) { 
           return x(d.success); })
       .attr("height", barHeight - 2)
@@ -267,12 +267,12 @@ function showNeighbors(results, school_id) {
             return "darkslategray";}})
 
   bar.append("text")
-      .attr("x", function(d) { return x(d.success) + 300})
+      .attr("x", function(d) { return x(d.success) + 320})
       .attr("y", barHeight / 2)
       .attr("dy", ".35em")
       .attr("text-anchor", "end")
       .text(function(d) { 
-          return d.success; });
+          return d.success.toFixed(3); });
 
   bar.on("click", function(d){
       getCharacteristics(d);
@@ -302,6 +302,11 @@ function getCharacteristics(school) {
   $.get('/school_chars.json', query, function(res){
       if(res.length != 0) {
         formatData(res);
+      }else {
+        var title = $("#chars_title");
+        title.text("Sorry! Data missing for that school. Please select another one.");
+        var chars_selector = $(".chars");
+        chars_selector.empty();
       }
   })
 
@@ -375,7 +380,6 @@ function showCharacteristics(school_name, data) {
 
   var texts = pies.append("text")
     .attr("font-size", 20)
-  //  .attr("stroke", "black")
     .attr("text-anchor", "start")
     .attr("y", 80)
     .attr("x", -40)
@@ -386,10 +390,13 @@ function showCharacteristics(school_name, data) {
 
   arc.append("title")
     .text(function(d) {
-      var percent = d.data.val.toString();
+      var percent = d.data.val.toFixed(2).toString();
       var label = d.data.label + ": " + percent + "%";
       return label;
     })
+
+  //var footer = $("#footer");
+  //footer.text("Hover over the charts to see more information.");
 
 }
 
