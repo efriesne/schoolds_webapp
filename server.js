@@ -40,6 +40,30 @@ app.get('/neighbors_info.json', neighborsInfo);
 
 app.get('/school_chars.json', getCharacteristics);
 
+app.get('/mapData.json', getMapData);
+
+function getMapData(request, response){
+
+	var query = "SELECT * FROM basic \
+					INNER JOIN success \
+					ON basic.school_id = success.school_id\
+					AND basic.year = success.year\
+					INNER JOIN enrollments\
+					ON basic.school_id = enrollments.school_id\
+					AND basic.year = enrollments.year;"
+
+	conn.query(query, function(error, result) {
+		if (error != null){
+			console.log(error);
+		}
+		else{
+			var n = result.rows;
+			console.log(n);
+			response.json(n);
+		}
+	});
+}
+
 function nearestNeighbors(request, response) {
   	console.log(request);
   	var school_id = request.query.id;

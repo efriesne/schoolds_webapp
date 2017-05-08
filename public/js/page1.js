@@ -10,7 +10,21 @@
 
 $( document ).ready(function() {
 
-    // Chart dimensions
+  getMapData()
+     
+});
+
+function getMapData() {
+
+  $.get('/mapData.json', function(res){
+        loadMap(res);
+    });
+}
+
+
+function loadMap(data) {
+
+  // Chart dimensions
     var margin = {top: 19.5, right: 19.5, bottom: 19.5, left: 39.5};
     var width = 960 - margin.right;
     var height = 500 - margin.top - margin.bottom;
@@ -20,8 +34,9 @@ $( document ).ready(function() {
     // Various scales
     var xScale = d3.scaleLinear().domain([-73514, -69988]).range([0, width]),
         yScale = d3.scaleLinear().domain([41244, 42871]).range([height, 0]),
-        colorScale = d3.scaleLinear().domain([0, 10]).range([startColor, endColor]);
-        colorScale2 = d3.scaleOrdinal([0,1]);
+        colorScale = d3.scaleLinear().domain([0, 10]).range([startColor, endColor]),
+        colorScale2 = d3.scaleOrdinal([0,1]),
+        radiusScale = d3.scaleLinear().domain([0, 5000]).range([3, 40]);
 
     // The x & y axes
     var xAxis = d3.axisBottom(xScale),
@@ -32,29 +47,6 @@ $( document ).ready(function() {
         charter_stat = d3.select("#charter_stat span")
         school_name = d3.select("#school_name span");
 
-
-    // Load the data.
-    d3.csv("basic_chars.csv", function(locations) {
-
-      d3.csv("success_metric.csv", function(successes) {
-
-        var data = innerJoin(locations, successes, function(location, success) {
-          if (location.year === success.year && location.school_id === success.school_id) {  
-            return {
-                id: location.school_id,
-                name: location.school,
-                year: location.year,
-                charter: location.charter,
-                level: location.level,
-                town: location.town,
-                lat: location.lat,
-                long: location.long,
-                success: success.success,
-                ela_success: success.ela_success,
-                math_success: success.math_success
-                };
-          };
-        })
 
         data = data.filter(function(d) {
           // we're only using one year for now
@@ -80,6 +72,7 @@ $( document ).ready(function() {
              // return d3.schemeCategory10[colorScale(color(d))];
              return colorScale(color(d));
             })
+            .sort(order);
 
         var zoom = d3.zoom()
           .scaleExtent([1, 40])
@@ -144,11 +137,11 @@ $( document ).ready(function() {
           level.text(d.level)
           town.text(d.town)
           charter_stat.text(d.charter)
-          school_name.text(d.name)
+          school_name.text(d.school)
         })
 
         dot.on("click", function(d){
-          d.school_id = d.id;
+          d.school_id = d.school_id;
           getNeighbors(d);
           getCharacteristics(d);
 
@@ -170,7 +163,7 @@ $( document ).ready(function() {
         }
         function radius(d) {
             // nothing for now
-            return 5;
+            return d.total;
         }
         function color(d) {
             // Return school's charter/noncharter status
@@ -178,7 +171,7 @@ $( document ).ready(function() {
         }
         function key(d) {
             // Return school's name
-            return d.name;
+            return d.school;
         }
 
         svg.call(zoom);
@@ -187,31 +180,18 @@ $( document ).ready(function() {
           dot.attr("cx", function(d) {
             return xScale(x(d)); })
               .attr("cy", function(d) { return yScale(y(d)); })
-              .attr("r", function(d) { return radius(d); });
+              .attr("r", function(d) { return radiusScale(radius(d)); });
         }
 
-        function innerJoin(a, b, select) {
-          var m = a.length, n = b.length, c = [];
-
-          for (var i = 0; i < m; i++) {
-              var x = a[i];
-
-              for (var j = 0; j < n; j++) { // cartesian product - all combinations
-                  var y = select(x, b[j]);  // filter out the rows and columns you want
-                  if (y) c.push(y);         // if a row is returned add it to the table
-              }
-          }
-
-          return c;
+        function order(a, b) {
+          return radius(b) - radius(a);
         }
-      })
-    });
-});
+}
 
 
 function getNeighbors(school) {
 
-  var school_id = +school.id;
+  var school_id = +school.school_id;
   var year = +school.year;
   getNeighborsRequest(school_id, year);
 
@@ -239,7 +219,7 @@ function showNeighbors(results, school_id) {
       .attr("width", width);
   
   data.forEach(function(d){
-    d.id = +d.school_id;
+    d.school_id = +d.school_id;
     d.success = +d.success;
     d.year = +d.year;
     d.name = d.school;
@@ -272,7 +252,7 @@ function showNeighbors(results, school_id) {
           return x(d.success); })
       .attr("height", barHeight - 2)
       .attr("fill", function(d){ 
-          if (d.id == school_id){
+          if (d.school_id == school_id){
             return "palegreen";
           } 
           else{ 
@@ -312,7 +292,9 @@ function getCharacteristics(school) {
   console.log(query); 
 
   $.get('/school_chars.json', query, function(res){
-      formatData(res);
+      if(res.length != 0) {
+        formatData(res);
+      }
   })
 
 }
@@ -385,7 +367,7 @@ function showCharacteristics(school_name, data) {
 
   var texts = pies.append("text")
     .attr("font-size", 20)
-    .attr("stroke", "black")
+  //  .attr("stroke", "black")
     .attr("text-anchor", "start")
     .attr("y", 80)
     .attr("x", -40)
