@@ -239,7 +239,7 @@ function showNeighbors(results, school_id) {
       .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
 
   bar.append("text")
-      .attr("x", 235)
+      .attr("x", 260)
       .attr("y", barHeight / 2)
       .attr("text-anchor", "end")
       .attr("dy", ".35em")
@@ -247,7 +247,7 @@ function showNeighbors(results, school_id) {
           return d.name + "  "});
       
   bar.append("rect")
-      .attr("x", 240)
+      .attr("x", 265)
       .attr("width", function(d) { 
           return x(d.success); })
       .attr("height", barHeight - 2)
@@ -259,7 +259,7 @@ function showNeighbors(results, school_id) {
             return "darkslategray";}})
 
   bar.append("text")
-      .attr("x", function(d) { return x(d.success) + 275})
+      .attr("x", function(d) { return x(d.success) + 300})
       .attr("y", barHeight / 2)
       .attr("dy", ".35em")
       .attr("text-anchor", "end")
