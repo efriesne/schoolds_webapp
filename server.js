@@ -38,6 +38,8 @@ app.get('/neighbors.json', nearestNeighbors);
 
 app.get('/neighbors_info.json', neighborsInfo);
 
+app.get('/school_chars.json', getCharacteristics);
+
 function nearestNeighbors(request, response) {
   	console.log(request);
   	var school_id = request.query.id;
@@ -84,6 +86,29 @@ function neighborsInfo(request, response) {
 		}
 	})
 }
+
+function getCharacteristics(request, response) {
+
+	var n = request.query;
+	console.log(n);
+
+	var query = "SELECT * FROM basic b INNER JOIN racegender r ON b.school_id=r.school_id \
+				 INNER JOIN teachers t ON b.school_id = t.school_id INNER JOIN selectedpopulation s \
+				 ON b.school_id = s.school_id \
+				 WHERE b.school_id = $1 AND b.year = $2 AND r.year = $3 and \
+				 s.year = $4 and t.year = $5;;"
+
+	conn.query(query, [n.id, n.y, n.y, n.y, n.y], function(error, result) {
+
+		if (error){
+			console.log(error);
+		}
+		else{
+			console.log(result.rows);
+			response.json(result.rows);
+		}
+	})
+}	
 
 //Start listening on port
 app.listen(8080, function(error, response) {

@@ -148,7 +148,9 @@ $( document ).ready(function() {
         })
 
         dot.on("click", function(d){
+          d.school_id = d.id;
           getNeighbors(d);
+          getCharacteristics(d);
 
         })
 
@@ -217,7 +219,9 @@ function getNeighbors(school) {
 
 function showNeighbors(results, school_id) {
 
-  var data = results;
+  var data = results.slice(0,11);
+
+
   console.log(data);
   console.log(school_id);
 
@@ -227,11 +231,9 @@ function showNeighbors(results, school_id) {
   var x = d3.scaleLinear()
       .range([0, 450]);
 
-  var xAxis = d3.axisBottom(x);
-
   //clear the previous graph
   var chart_selector = $(".graph");
-  chart_selector.empty()
+  chart_selector.empty();
 
   var chart = d3.select(".graph")
       .attr("width", width);
@@ -243,7 +245,7 @@ function showNeighbors(results, school_id) {
     d.name = d.school;
   });
 
-  x.domain([0, d3.max(data, function(d) { return d.success; })]);
+  x.domain([0, 10]);
 
   data.sort(function (a, b) {
       return b.success - a.success;
@@ -255,11 +257,6 @@ function showNeighbors(results, school_id) {
       .data(data)
   .enter().append("g")
       .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
-
-  var x_axis = chart.append('g')
-      .attr("transform", "translate(150,220)")
-      .attr('id','xaxis')
-      .call(xAxis);
 
   bar.append("text")
       .attr("x", 235)
@@ -290,7 +287,7 @@ function showNeighbors(results, school_id) {
           return d.success; });
 
   bar.on("click", function(d){
-      getNeighbors(d);
+      getCharacteristics(d);
     })
 }
 
@@ -309,7 +306,102 @@ function getNeighborsInfoRequest(res, school_id) {
     });
 }
 
+function getCharacteristics(school) {
 
+  var query = { id: school.school_id, y: school.year };
+  console.log(query); 
+
+  $.get('/school_chars.json', query, function(res){
+      formatData(res);
+  })
+
+}
+
+function formatData(res) {
+
+    res = res[0];
+    console.log(res);
+
+    var school_name = res.school;
+
+    var race = [{val: res.white, label: "White"}, {val: res.native, label: "Native"}, {val: res.african_american, label: "Black"}, {val: res.asian, label: "Asian"}, {val: res.hispanic, label: "Hispanic"}];
+    var gender = [{val: res.male, label: "Male"}, {val: res.female, label: "Female"}];
+    var language = [{val: res.ELL_per, label: "ELL"}, {val: 100-res.ELL_per, label: "Non-ELL"}];
+    var disabilities = [{val: res.disabilities_per, label: "Disabilities"}, {val: 100-res.disabilities_per, label: "No Disabilities"}];
+    var lunch = [{val: res.free_lunch_per, label: "Free Lunch"}, {val: res.reduced_lunch_per, label: "Reduced Lunch"}, {val: 100-res.free_lunch_per-res.reduced_lunch_per, label: "Full Price"}];
+
+    var data = [race, gender, language, disabilities, lunch];
+
+    showCharacteristics(school_name, data);
+}
+
+function showCharacteristics(school_name, data) {
+  console.log("characteristics!");
+  console.log(data);
+
+  var labels = ["Race", "Gender", "Language", "Disability Status", "Free Lunch Status"];
+
+  var chars_selector = $(".chars");
+  chars_selector.empty();
+
+  var title = $("#chars_title");
+  title.text("School Characteristics: " + school_name);
+
+  var m = 10,
+    r = 60,
+    color = d3.scaleOrdinal(d3.schemeCategory20);
+
+  var chars = d3.select(".chars").attr("width", 750).attr("height", 300);
+    
+
+  var svg = chars.selectAll("svg")
+    .data(data)
+  .enter().append("svg")
+    .attr("width", (r + m) * 2)
+    .attr("height", (r + m) * 2 + 40)
+    .attr("x", function(d, i) {
+        return i*135 + 30;
+    })
+    .attr("y", 30);
+
+  var pies = svg.append("g")
+    .attr("transform", "translate(" + (r + m) + "," + (r + m) + ")")
+    .attr("x", function(d, i) {
+        return i*135 + 30;
+    })
+    .attr("y", 150)
+    .attr("margin-top", 10);
+
+
+  var arc = pies.selectAll("path")
+    .data(d3.pie().value(function(d) { 
+        return d.val}))
+  .enter().append("path")
+    .attr("d", d3.arc()
+        .innerRadius(r / 2)
+        .outerRadius(r))
+    .style("fill", function(d, i) { 
+      return color(i); });
+
+  var texts = pies.append("text")
+    .attr("font-size", 20)
+    .attr("stroke", "black")
+    .attr("text-anchor", "start")
+    .attr("y", 80)
+    .attr("x", -40)
+    .text(function(d, i) {
+      return labels[i];
+    });
+
+
+  arc.append("title")
+    .text(function(d) {
+      var percent = d.data.val.toString();
+      var label = d.data.label + ": " + percent + "%";
+      return label;
+    })
+
+}
 
 
 

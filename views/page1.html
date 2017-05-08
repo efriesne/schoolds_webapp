@@ -16,6 +16,7 @@
                       float: left;
                       margin-left: 0px;
                       border-style: solid;
+                      height: 700px;
                     }
                     #chart {
                         margin-left: 0px;
@@ -25,7 +26,6 @@
                     text {
                         font: 10px sans-serif;
                     }
-
                     .dot {
                         stroke: #000;
                     }
@@ -51,13 +51,23 @@
                     #graph_wrapper{
                         float: right;
                         justify-content: center;
-                        width: 40%;
+                        width: 41%;
                         border-style: solid;
-                        height: 500px;
+                        height: 340px;
                     }
-
                     #neighbors_title {
-                        margin-left: 27%
+                        margin-left: 50px;
+                    }
+                    #chars_wrapper{
+                        float: right;
+                        justify-content: center;
+                        margin-top: 15px;
+                        width: 41%;
+                        border-style: solid;
+                        height: 340px;
+                    }
+                    #chars_title {
+                      margin-left: 50px;
                     }
 
         </style>
@@ -81,12 +91,15 @@
               </div>
           </p>
         </div>
-          <br>
         <div id="graph_wrapper">
           <h3 id="neighbors_title">Nearest Neighbors Success Comparison</h3>
           <br>
-          <br>
           <svg class="graph"></svg>
+        </div>
+        <div id="chars_wrapper">
+          <h3 id="chars_title">School Characteristics</h3>
+          <br>
+          <svg class="chars"></svg>
         </div>
         <script type="text/javascript" src="../js/page1.js"></script>
       </section>
