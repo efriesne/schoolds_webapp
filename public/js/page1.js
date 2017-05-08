@@ -138,7 +138,13 @@ function loadMap(data) {
         dot.on("mouseover", function(d) {
           level.text(d.level)
           town.text(d.town)
-          charter_stat.text(d.charter)
+          charter_stat.text(function(){
+            if (d.charter == 0){
+              return "No";
+            }else{
+              return "Yes";
+            }
+          })
           school_name.text(d.school)
         })
 
