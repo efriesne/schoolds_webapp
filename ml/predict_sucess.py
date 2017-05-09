@@ -53,8 +53,11 @@ def load_file(file_path, discrete_clf):
 
 			#add charter
 			add_feat(row[56], feat)
-			#add district
-			add_feat(discrete_clf.predict(float(row[63]))[0], feat)
+			#add district and level
+			level = get_level(row[57])
+			district = get_district(row[63])
+			discrete_ids = numpy.array([district, level])
+			add_feat(discrete_clf.predict(discrete_ids)[0], feat)
 
 			#add teachers
 			for i in range(27, 31):
@@ -71,12 +74,30 @@ def add_feat(toAdd, feat):
 	else:
 		feat.append(-1)
 
+def get_level(level):
+	if level == "Middle":
+		level = 0
+	elif level == "Primary":
+		level = 1
+	elif level == "High":
+		level = 2
+	elif level == "Other":
+		level = 3
+	else:
+		level = -1
+	return level
+
+def get_district(district):
+	if district == "":
+		district = -1
+	return float(district)
+
 def main():
 
 	##### DO NOT MODIFY THESE OPTIONS ##########################
 	parser = argparse.ArgumentParser()
 	#parser.add_argument('-training', required=True, help='Path to training data')
-	parser.add_argument('-test', required=True, help='Path to test data')
+	#parser.add_argument('-test', required=True, help='Path to test data')
 	opts = parser.parse_args()
 	############################################################
 
@@ -92,27 +113,27 @@ def main():
 
 	# Test the classifier on the given test set
 	# Load test labels and texts using load_file()
-	(test_labels, test_ratios) = load_file(opts.test, discrete_clf)
+	#(test_labels, test_ratios) = load_file(opts.test, discrete_clf)
 
-	test_ratios = numpy.array(test_ratios)
+	#test_ratios = numpy.array(test_ratios)
 	#test_ratios = test_ratios.reshape(-1, 1)
 
 	# Extract test features using vectorizer.transform()
-	test_features = scaler.transform(test_ratios)
+	#test_features = scaler.transform(test_ratios)
 
 	# Predict the labels for the test set
-	predicted_labels = classifier.predict(test_features)
+	#predicted_labels = classifier.predict(test_features)
 	
 	#print('sklearn confusion matrix:', confusion_matrix(test_labels, predicted_labels))
-	print('classifier score: ', classifier.score(test_features, test_labels))
+	#print('classifier score: ', classifier.score(test_features, test_labels))
 
-	fig, ax = plt.subplots()
-	ax.scatter(test_labels, predicted_labels, color='#d7a29e', s=3)
-	ax.plot([0, 10], [0, 10], 'k--', lw=2, color='#595a6d')
-	ax.set_xlabel('Measured')
-	ax.set_ylabel('Predicted')
-	plt.title('Overall Classifier Accuracy')
-	plt.savefig('plot.png', dpi=300, size='xx-large')
+	#fig, ax = plt.subplots()
+	#ax.scatter(test_labels, predicted_labels, color='#d7a29e', s=3)
+	#ax.plot([0, 10], [0, 10], 'k--', lw=2, color='#595a6d')
+	#ax.set_xlabel('Measured')
+	#ax.set_ylabel('Predicted')
+	#plt.title('Overall Classifier Accuracy')
+	#plt.savefig('plot.png', dpi=300, size='xx-large')
 	###########################################################
 
 	###### PREDICT FROM NEW ##################################

@@ -51,9 +51,11 @@ def load_file(file_path, discrete_clf):
 
 			#add charter
 			add_feat(row[56], feat)
+			level = get_level(row[57])
+			district = get_district(row[63])
+			discrete_ids = numpy.array([district, level])
 			#add district
-			add_feat(discrete_clf.predict(float(row[63]))[0], feat)
-
+			add_feat(discrete_clf.predict(discrete_ids)[0], feat)
 			#add teachers
 			for i in range(27, 31):
 				add_feat(row[i], feat)
@@ -69,6 +71,24 @@ def add_feat(toAdd, feat):
 	else:
 		feat.append(-1)
 
+def get_level(level):
+	if level == "Middle":
+		level = 0
+	elif level == "Primary":
+		level = 1
+	elif level == "High":
+		level = 2
+	elif level == "Other":
+		level = 3
+	else:
+		level = -1
+	return level
+
+def get_district(district):
+	if district == "":
+		district = -1
+	return float(district)
+
 def load_district(file_path):
 
 	successes = []
@@ -77,9 +97,14 @@ def load_district(file_path):
 		reader = csv.reader(file_reader, delimiter=',', quotechar='"')
 		for row in reader:
 			succ = (int(float(row[2])))
+			feat = []
 			#add district
-			feats.append(row[63])
+			feat.append(row[63])
+			#add level
+			level = get_level(row[57])
+			feat.append(level)
 			successes.append(succ)
+			feats.append(feat)
 
 	return (successes, feats)
 
@@ -89,7 +114,7 @@ def discrete_classify(file_path):
 	# Get training features using vectorizer
 	#scaler = preprocessing.StandardScaler()
 	district_ids = numpy.array(district_ids)
-	district_ids = district_ids.reshape(-1, 1)
+	#district_ids = district_ids.reshape(-1, 1)
 
 	#training_features = scaler.fit_transform(training_ratios)
 

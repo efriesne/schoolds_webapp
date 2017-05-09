@@ -38,7 +38,38 @@ app.get('/neighbors.json', nearestNeighbors);
 
 app.get('/neighbors_info.json', neighborsInfo);
 
+<<<<<<< HEAD
 app.get('/success', successPrediction);
+=======
+app.get('/school_chars.json', getCharacteristics);
+
+app.get('/mapData.json', getMapData);
+
+function getMapData(request, response){
+
+	var query = "SELECT * FROM basic \
+					INNER JOIN success \
+					ON basic.school_id = success.school_id\
+					AND basic.year = success.year\
+					INNER JOIN enrollments\
+					ON basic.school_id = enrollments.school_id\
+					AND basic.year = enrollments.year\
+					INNER JOIN neighbors\
+					ON basic.school_id = neighbors.school_id\
+					AND basic.year = neighbors.year;"
+
+	conn.query(query, function(error, result) {
+		if (error != null){
+			console.log(error);
+		}
+		else{
+			var n = result.rows;
+			console.log(n);
+			response.json(n);
+		}
+	});
+}
+>>>>>>> effef9dfde1b5ecc808096da161860068803e260
 
 function nearestNeighbors(request, response) {
   	console.log(request);
@@ -87,6 +118,7 @@ function neighborsInfo(request, response) {
 	})
 }
 
+<<<<<<< HEAD
 function successPrediction(request, response) {
 	var n = request.query
 	var fields = n.fields;
@@ -124,6 +156,30 @@ function successPrediction(request, response) {
 		});
 	});
 }
+=======
+function getCharacteristics(request, response) {
+
+	var n = request.query;
+	console.log(n);
+
+	var query = "SELECT * FROM basic b INNER JOIN racegender r ON b.school_id=r.school_id \
+				 INNER JOIN teachers t ON b.school_id = t.school_id INNER JOIN selectedpopulation s \
+				 ON b.school_id = s.school_id \
+				 WHERE b.school_id = $1 AND b.year = $2 AND r.year = $3 and \
+				 s.year = $4 and t.year = $5;;"
+
+	conn.query(query, [n.id, n.y, n.y, n.y, n.y], function(error, result) {
+
+		if (error){
+			console.log(error);
+		}
+		else{
+			console.log(result.rows);
+			response.json(result.rows);
+		}
+	})
+}	
+>>>>>>> effef9dfde1b5ecc808096da161860068803e260
 
 //Start listening on port
 app.listen(8080, function(error, response) {

@@ -1,3 +1,7 @@
+//$( document ).ready(function() {
+//  $("#map_tab").trigger("click");
+//});
+
 function displayPage(evt, pageName) {
     console.log(evt)
       // Declare all variables
@@ -18,15 +22,7 @@ function displayPage(evt, pageName) {
     // Show the current tab, and add an "active" class to the button that opened the tab
     document.getElementById(pageName).style.display = "block";
     evt.currentTarget.className += " active";
+
+
 }
 
-
-function getNearestNeighbors() {
-    params = {player: player.id};
-    $.post("/neighbors", params, function(responseJSON) {
-        responseObject = JSON.parse(responseJSON);
-        
-    });
-}
-
-$('#page1tab').trigger('click');

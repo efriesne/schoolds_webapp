@@ -10,24 +10,26 @@
                       margin: 10px;
                     }
                     .main-content {
-                      margin-top: 100px;
+                      margin-top: 50px;
                     }
                     #map_wrapper {
                       float: left;
                       margin-left: 0px;
                       border-style: solid;
+                      height: 700px;
                     }
                     #chart {
                         margin-left: 0px;
                         margin-right: 20px;
                         height: 506px;
+                        margin-bottom: 0px;
                     }
                     text {
-                        font: 10px sans-serif;
+                        font: 11px sans-serif;
                     }
-
                     .dot {
                         stroke: #000;
+                        stroke-width: 1;
                     }
 
                     .view {
@@ -44,21 +46,58 @@
                         cursor: pointer;
                     }
                     #info {
-                        margin-left: 100px;
-                        font-size: 20px;
+                        margin-top: 0px;
+                        margin-left: 80px;
+                        font-size: 18px;
                         text-decoration: none;
+                        display: inline-block;
+                    }
+                    #school_name {
+                      height: 22px;
                     }
                     #graph_wrapper{
                         float: right;
                         justify-content: center;
-                        width: 40%;
+                        width: 41%;
                         border-style: solid;
-                        height: 500px;
+                        height: 340px;
+                    }
+                    #neighbors_title {
+                        margin-left: 50px;
+                    }
+                    #chars_wrapper{
+                        float: right;
+                        justify-content: center;
+                        margin-top: 15px;
+                        width: 41%;
+                        border-style: solid;
+                        height: 340px;
+                    }
+                    #chars_title {
+                      margin-left: 50px;
+                    }
+                    #sliderwrapper {
+                      margin-top:5px;
+                      width: 100%;
+                      text-align: center;
+                      display: block;
+                    }
+                    #yearslider {
+                      width:30%;
+                    }
+                    #yearlabel {
+                      color: gray;
+                      font-size: 25px;
+                    }
+                    #neighbors_explanation {
+                      font: 11px sans-serif;
+                      margin-left: 285px;
+                    }
+                    #footer {
+                      font: 11px sans-serif;
+                      margin-left: 285px;
                     }
 
-                    #neighbors_title {
-                        margin-left: 27%
-                    }
 
         </style>
 
@@ -71,22 +110,46 @@
                   <div id = "school_name"><span></span></div>
                   <div id = "level"><b>Level: </b><span></span> </div>
                   <div id = "town"><b>Town: </b><span></span> </div>
-                  <div id = "charter_stat"><b>Charter Status: </b><span></span></div> <br>
+                  <div id = "charter_stat"><b>Charter Status: </b><span></span></div>
+              </div>
+              <div id="sliderwrapper">
+                <div id="yearlabel"><span>2002</span></div>
+              <input type="range" min="2002" max="2014" value="2002" id="yearslider" step="1" list="yearsettings">
+              <datalist id="volsettings">
+                <option>2002</option>
+                <option>2003</option>
+                <option>2004</option>
+                <option>2005</option>
+                <option>2006</option>
+                <option>2007</option>
+                <option>2008</option>
+                <option>2009</option>
+                <option>2010</option>
+                <option>2011</option>
+                <option>20012</option>
+                <option>2013</option>
+                <option>2014</option>
+              </datalist>
               </div>
               <div id="buttons">
                       <button id="success">Success (default)</button>
-                      <button id="charter">Charter Status</button>
+                     <!--  <button id="charter">Charter Status</button> -->
                       <button id="math">Math Success</button>
-                      <button id="english">English Success</button>
+                      <button id="reset">Reset</button>
               </div>
           </p>
         </div>
-          <br>
         <div id="graph_wrapper">
-          <h3 id="neighbors_title">Nearest Neighbors Success Comparison</h3>
-          <br>
+          <h4 id="neighbors_title">Nearest Neighbors Success Comparison</h4>
           <br>
           <svg class="graph"></svg>
+          <p id="neighbors_explanation"></p>
+        </div>
+        <div id="chars_wrapper">
+          <h4 id="chars_title">School Characteristics</h4>
+          <br>
+          <svg class="chars"></svg>
+          <p id="footer"></h5>
         </div>
         <script type="text/javascript" src="../js/page1.js"></script>
       </section>
