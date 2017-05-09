@@ -5,5 +5,5 @@ teachers: {24: id, 25: year, 26: total_teachers, 27: percent_licensed, 28: total
 racegender: {31: id, 32: year, 33: african_american, 34: asian, 35: hispanic, 36: white, 37: native, 38: male, 39: female}
 highered: {40: id, 41: year, 42: percent_college, 43: percent_priv_two_year, 44: percent_priv_four_year, 45: percent_public_two_year, 46: percent_public_four_year}
 incidents: {47: id, 48: year, 49: num_incs, 50: num_days_missed, 51: common_off_desc, 52: common_off_disc}
-district: {53: id, 54: year, 55: district_id, 56: district_text, 57: grade, 58: ela_raw, 59: ela_scaled, 60: ela_perf, 61: math_raw, 62: math_scaled, 63: math_perf}
-basic: {64: id, 65: year, 66: school, 67: charter, 68: level, 69: level, 70: town, 71: lat, 72: long}
+basic: {53: id, 54: year, 55: school, 56: charter, 57: level, 58: level, 59: town, 60: lat, 61: long}
+district: {62: id, 63: year, 64: district_id}
