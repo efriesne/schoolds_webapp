@@ -28,14 +28,14 @@ function loadMap(allData) {
     var margin = {top: 19.5, right: 19.5, bottom: 19.5, left: 39.5};
     var width = 960 - margin.right;
     var height = 500 - margin.top - margin.bottom;
-    var startColor = '#ff0000';
-    var endColor = '#00ff00';
+    var startColor = '#ce473d';
+    var endColor = '#37a378';
 
     // Various scales
     var xScale = d3.scaleLinear().domain([-73514, -69988]).range([0, width]),
         yScale = d3.scaleLinear().domain([41244, 42871]).range([height, 0]),
         colorScale = d3.scaleLinear().domain([0, 10]).range([startColor, endColor]),
-        colorScale2 = d3.scaleOrdinal([0,1]),
+        colorScale2 = d3.scaleOrdinal().domain([0,1]).range(['#abc9bd', '#d7a29e']),
         radiusScale = d3.scaleLinear().domain([0, 5000]).range([3, 40]);
 
     // The x & y axes
@@ -74,7 +74,7 @@ function loadMap(allData) {
             .attr("class", "dot")
             .call(position)
             .attr("fill", function(d) {
-             return colorScale(color(d));
+             return color(d);
             });
 
         var zoom = d3.zoom()
@@ -104,27 +104,31 @@ function loadMap(allData) {
             .on("click", function(d,i) {
                 dot.data(data)
                   .attr("fill", function(d) {
-                    return colorScale(color(d));
+                    color_metric = "success"
+                    return color(d);
                   })
             })
         d3.select("#charter")
             .on("click", function(d,i) {
                 dot.data(data)
                   .attr("fill", function(d) {
-                    return d3.schemeCategory10[colorScale2(d.charter)];
+                    color_metric = "charter"
+                    return color(d);
                   })
             })
         d3.select("#math")
             .on("click", function(d,i) {
                 dot.data(data)
                   .attr("fill", function(d) {
-                    return colorScale(d.math_success);
+                    color_metric = "math"
+                    return color(d);
                   })
             })
         d3.select("#english")
             .on("click", function(d,i) {
                 dot.attr("fill", function(d) {
-                    return colorScale(d.ela_success);
+                    color_metric = "english"
+                    return color(d);
                   })
             })
         d3.select("#yearslider")
@@ -134,15 +138,15 @@ function loadMap(allData) {
             data = allData.filter(function(d) {
               return d.year == current_year;
             });
+            data = data.sort(order)
             dot.data(data)
               .attr("fill", function(d) {
-              return colorScale(d.success);
+              return color(d);
             })
               .call(position)
           })
 
         // Add a title.
-
 
         dot.append("title")
           .text(function(d) {
@@ -160,7 +164,17 @@ function loadMap(allData) {
             }
           })
           school_name.text(d.school)
+          d3.select(this).style('stroke', '#84c9ae')
         })
+
+        dot.on("mouseout", function(d) {
+          level.text("")
+          town.text("")
+          charter_stat.text("")
+          school_name.text("")
+          d3.select(this).style('stroke', '#000')
+        })
+
 
         dot.on("click", function(d){
           d.school_id = d.school_id;
@@ -176,7 +190,7 @@ function loadMap(allData) {
           svg.selectAll('.dot').each( function(d) {
             d3.select(this).attr('r', radiusScale(d.total) / d3.event.transform.k);
           });
-          svg.selectAll('.dot').style('stroke-width', 2 / d3.event.transform.k);
+          svg.selectAll('.dot').style('stroke-width', 1 / d3.event.transform.k);
         }
 
         function x(d) {
@@ -192,8 +206,16 @@ function loadMap(allData) {
             return d.total;
         }
         function color(d) {
-            // Return school's charter/noncharter status
-            return d.success;
+
+            if(color_metric == "success") {
+              return colorScale(d.success);
+            } else if (color_metric == "math") {
+              return colorScale(d.math_success);
+            } else if (color_metric == "charter") {
+              return colorScale2(d.charter);
+            } else {
+              return colorScale(d.ela_success);
+            }
         }
         function key(d) {
             // Return school's name
