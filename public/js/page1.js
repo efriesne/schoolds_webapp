@@ -118,6 +118,19 @@ function loadMap(allData) {
             })
         d3.select("#reset")
             .on("click", function(d,i) {
+                //Reset neighbors graph and characteristics diagrams
+                var chars_selector = $(".chars");
+                chars_selector.empty();
+                var chart_selector = $(".graph");
+                chart_selector.empty();
+                var neighbors_test = $("#neighbors_explanation");
+                neighbors_test.empty();
+                var footer = $("#footer");
+                footer.empty();
+                var title = $("#chars_title");
+                title.text("School Characteristics:");
+
+                //Reset dot colors
                 dot.data(data)
                   .attr("opacity", 1)
                   .attr("fill", function(d) {
