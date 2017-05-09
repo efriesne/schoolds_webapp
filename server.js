@@ -38,9 +38,8 @@ app.get('/neighbors.json', nearestNeighbors);
 
 app.get('/neighbors_info.json', neighborsInfo);
 
-<<<<<<< HEAD
 app.get('/success', successPrediction);
-=======
+
 app.get('/school_chars.json', getCharacteristics);
 
 app.get('/mapData.json', getMapData);
