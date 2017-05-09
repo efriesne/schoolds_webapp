@@ -9,9 +9,7 @@
 // http://stackoverflow.com/questions/17500312/is-there-some-way-i-can-join-the-contents-of-two-javascript-arrays-much-like-i/17500836#17500836
 
 $( document ).ready(function() {
-
   getMapData()
-     
 });
 
 function getMapData() {
@@ -20,7 +18,6 @@ function getMapData() {
         loadMap(res);
     });
 }
-
 
 function loadMap(allData) {
 
@@ -258,7 +255,7 @@ function showNeighbors(results, school_id) {
   barHeight = 20;
 
   var x = d3.scaleLinear()
-      .range([0, 450]);
+      .range([0, 400]);
 
   //clear the previous graph
   var chart_selector = $(".graph");
