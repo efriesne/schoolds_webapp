@@ -316,7 +316,14 @@ function getCharacteristics(school) {
   var query = { id: school.school_id, y: school.year };
   console.log(query); 
 
-  $.get('/school_chars.json', query, function(res){
+  if (school.year < 2004) {
+      var chars_selector = $(".chars");
+      chars_selector.empty();
+      var title = $("#chars_title");
+      title.text("Sorry! Characteristic data not available before 2004.");
+  }
+  else {
+    $.get('/school_chars.json', query, function(res){
       if(res.length != 0) {
         formatData(res);
       }else {
@@ -325,8 +332,8 @@ function getCharacteristics(school) {
         var chars_selector = $(".chars");
         chars_selector.empty();
       }
-  })
-
+    })
+  }
 }
 
 function formatData(res) {
