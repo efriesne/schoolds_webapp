@@ -164,7 +164,10 @@ function loadMap(allData) {
               .attr("fill", function(d) {
               return color(d);
             })
-              .call(position)
+              .call(position);
+
+            //Reset on any slider change
+            $("#reset").trigger("click");
           })
 
         // Add a title.
@@ -212,10 +215,10 @@ function loadMap(allData) {
                 d3.select(this)
                   .attr('opacity', 0.05)
                   .attr('stroke', 'none');
-            }//else if(d.school_id == school_id){
-                //d3.select(this)
-                  //.attr('fill', 'orange');
-            //} 
+            }else if(d.school_id == school_id){
+                d3.select(this)
+                  .attr('fill', 'orange');
+            } 
           });
 
           getNeighbors(d);
