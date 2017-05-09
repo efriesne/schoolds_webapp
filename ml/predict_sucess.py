@@ -53,9 +53,11 @@ def load_file(file_path, discrete_clf):
 
 			#add charter
 			add_feat(row[56], feat)
-			#add district
-			if row[63] != "":
-				add_feat(discrete_clf.predict(float(row[63]))[0], feat)
+			#add district and level
+			level = get_level(row[57])
+			district = get_district(row[63])
+			discrete_ids = numpy.array([district, level])
+			add_feat(discrete_clf.predict(discrete_ids)[0], feat)
 
 			#add teachers
 			for i in range(27, 31):
@@ -71,6 +73,24 @@ def add_feat(toAdd, feat):
 		feat.append(float(toAdd))
 	else:
 		feat.append(-1)
+
+def get_level(level):
+	if level == "Middle":
+		level = 0
+	elif level == "Primary":
+		level = 1
+	elif level == "High":
+		level = 2
+	elif level == "Other":
+		level = 3
+	else:
+		level = -1
+	return level
+
+def get_district(district):
+	if district == "":
+		district = -1
+	return float(district)
 
 def main():
 
