@@ -44,8 +44,9 @@ function loadMap(data) {
 
     var level = d3.select("#level span"),
         town = d3.select("#town span"),
-        charter_stat = d3.select("#charter_stat span")
-        school_name = d3.select("#school_name span");
+        charter_stat = d3.select("#charter_stat span"),
+        school_name = d3.select("#school_name span"),
+        year_label = d3.select("#yearlabel span");
 
 
         data = data.filter(function(d) {
@@ -126,6 +127,12 @@ function loadMap(data) {
                     return colorScale(d.ela_success);
                   })
             })
+        d3.select("#yearslider")
+          .on("click", function() {
+            console.log(this.value);
+            console.log("slider");
+            year_label.text(this.value);
+          })
 
         // Add a title.
 

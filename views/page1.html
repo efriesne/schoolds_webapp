@@ -69,6 +69,18 @@
                     #chars_title {
                       margin-left: 50px;
                     }
+                    #sliderwrapper {
+                      width: 100%;
+                      text-align: center;
+                    }
+                    #yearslider {
+                      width:30%;
+                    }
+                    #yearlabel {
+                      color: gray;
+                      font-size: 25px;
+                    }
+
 
         </style>
 
@@ -82,6 +94,25 @@
                   <div id = "level"><b>Level: </b><span></span> </div>
                   <div id = "town"><b>Town: </b><span></span> </div>
                   <div id = "charter_stat"><b>Charter Status: </b><span></span></div> <br>
+              </div>
+              <div id="sliderwrapper">
+                <div id="yearlabel"><span>2002</span></div>
+              <input type="range" min="2002" max="2014" value="2002" id="yearslider" step="1" list="yearsettings">
+              <datalist id="volsettings">
+                <option>2002</option>
+                <option>2003</option>
+                <option>2004</option>
+                <option>2005</option>
+                <option>2006</option>
+                <option>2007</option>
+                <option>2008</option>
+                <option>2009</option>
+                <option>2010</option>
+                <option>2011</option>
+                <option>20012</option>
+                <option>2013</option>
+                <option>2014</option>
+              </datalist>
               </div>
               <div id="buttons">
                       <button id="success">Success (default)</button>
