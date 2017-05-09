@@ -129,8 +129,6 @@ function loadMap(data) {
             })
         d3.select("#yearslider")
           .on("click", function() {
-            console.log(this.value);
-            console.log("slider");
             year_label.text(this.value);
           })
 
