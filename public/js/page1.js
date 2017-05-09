@@ -159,6 +159,10 @@ function loadMap(data) {
           svg.attr("transform", d3.event.transform);
           xAxis.scale(d3.event.transform.rescaleX(xScale));
           yAxis.scale(d3.event.transform.rescaleY(yScale));
+          svg.selectAll('.dot').each( function(d) {
+            d3.select(this).attr('r', radiusScale(d.total) / d3.event.transform.k);
+          });
+          svg.selectAll('.dot').style('stroke-width', 2 / d3.event.transform.k);
         }
 
         function x(d) {
@@ -208,7 +212,6 @@ function getNeighbors(school) {
 function showNeighbors(results, school_id) {
 
   var data = results.slice(0,11);
-
 
   console.log(data);
   console.log(school_id);
