@@ -15,7 +15,7 @@ $( document ).ready(function() {
 function getMapData() {
 
   $.get('/mapData.json', function(res){
-        console.log(res);
+        //console.log(res);
         loadMap(res);
     });
 }
@@ -116,6 +116,10 @@ function loadMap(allData) {
                     return color(d);
                   })
             })
+        d3.select("#reset")
+            .on("click", function(d,i) {
+                dot.data(data).attr("opacity", 1)});
+
         d3.select("#math")
             .on("click", function(d,i) {
                 dot.data(data)
@@ -177,7 +181,21 @@ function loadMap(allData) {
 
 
         dot.on("click", function(d){
-          d.school_id = d.school_id;
+
+          console.log(d);
+          var school_id = d.school_id;
+          var id_list = [school_id, d.n1, d.n2, d.n3, d.n4, d.n5, d.n6, d.n7, d.n8, d.n9, d.n10];
+          console.log("This is the list of neighbors!");
+          console.log(id_list);
+
+          svg.selectAll('.dot').each( function(d) {
+            if (id_list.indexOf(d.school_id) == -1){
+                d3.select(this)
+                  .attr('opacity', 0.05)
+                  .attr('stroke', 'none');
+              } 
+            });
+
           getNeighbors(d);
           getCharacteristics(d);
 
