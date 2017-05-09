@@ -179,6 +179,7 @@ function loadMap(allData) {
           d.school_id = d.school_id;
           getNeighbors(d);
           getCharacteristics(d);
+          
 
         })
 
