@@ -315,6 +315,9 @@ function showNeighbors(results, school_id) {
   bar.on("click", function(d){
       getCharacteristics(d);
     })
+
+  var explanation = $("#neighbors_explanation");
+  explanation.text("Click on one of the bars to see a school's characteristics below!");
 }
 
 function getNeighborsRequest(school_id, year) {
@@ -392,7 +395,9 @@ function showCharacteristics(school_name, data) {
     r = 60,
     color = d3.scaleOrdinal(d3.schemeCategory20);
 
-  var chars = d3.select(".chars").attr("width", 750).attr("height", 300);
+  var chars = d3.select(".chars")
+    .attr("width", 750)
+    .attr("height", 200);
     
 
   var svg = chars.selectAll("svg")
@@ -441,8 +446,8 @@ function showCharacteristics(school_name, data) {
       return label;
     })
 
-  //var footer = $("#footer");
-  //footer.text("Hover over the charts to see more information.");
+  var footer = $("#footer");
+  footer.text("Hover over the charts to see more information.");
 
 }
 
