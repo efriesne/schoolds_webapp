@@ -22,7 +22,7 @@ function getMapData() {
 }
 
 
-function loadMap(data) {
+function loadMap(allData) {
 
   // Chart dimensions
     var margin = {top: 19.5, right: 19.5, bottom: 19.5, left: 39.5};
@@ -48,10 +48,12 @@ function loadMap(data) {
         school_name = d3.select("#school_name span"),
         year_label = d3.select("#yearlabel span");
 
+    var current_year = 2002,
+        color_metric = "success";
 
-        data = data.filter(function(d) {
+        data = allData.filter(function(d) {
           // we're only using one year for now
-          return d.year == 2013;
+          return d.year == current_year;
         })
 
         data.sort(order);
@@ -72,10 +74,8 @@ function loadMap(data) {
             .attr("class", "dot")
             .call(position)
             .attr("fill", function(d) {
-             // return d3.schemeCategory10[colorScale(color(d))];
              return colorScale(color(d));
-            })
-            .sort(order);
+            });
 
         var zoom = d3.zoom()
           .scaleExtent([1, 40])
@@ -129,7 +129,16 @@ function loadMap(data) {
             })
         d3.select("#yearslider")
           .on("click", function() {
-            year_label.text(this.value);
+            current_year = this.value
+            year_label.text(current_year);
+            data = allData.filter(function(d) {
+              return d.year == current_year;
+            });
+            dot.data(data)
+              .attr("fill", function(d) {
+              return colorScale(d.success);
+            })
+              .call(position)
           })
 
         // Add a title.
