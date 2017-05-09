@@ -131,7 +131,7 @@ var arc = d3.arc()
     .startAngle(0);
 
 successPred = svg2.select(".success-vis")
-	.attr("transform", "translate(" + 700 + "," + 400 + ")");;
+	.attr("transform", "translate(" + 300 + "," + 400 + ")");;
 
 arc1 = successPred.append("path")
 	.datum({endAngle: tau})
