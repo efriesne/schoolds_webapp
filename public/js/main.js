@@ -18,12 +18,3 @@ function displayPage(evt, pageName) {
     document.getElementById(pageName).style.display = "block";
     evt.currentTarget.className += " active";
 }
-
-
-function getNearestNeighbors() {
-    params = {player: player.id};
-    $.post("/neighbors", params, function(responseJSON) {
-        responseObject = JSON.parse(responseJSON);
-        
-    });
-}
