@@ -15,6 +15,7 @@ $( document ).ready(function() {
 function getMapData() {
 
   $.get('/mapData.json', function(res){
+        console.log(res);
         loadMap(res);
     });
 }
@@ -179,7 +180,7 @@ function loadMap(allData) {
           d.school_id = d.school_id;
           getNeighbors(d);
           getCharacteristics(d);
-          
+
 
         })
 

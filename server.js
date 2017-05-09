@@ -50,7 +50,10 @@ function getMapData(request, response){
 					AND basic.year = success.year\
 					INNER JOIN enrollments\
 					ON basic.school_id = enrollments.school_id\
-					AND basic.year = enrollments.year;"
+					AND basic.year = enrollments.year\
+					INNER JOIN neighbors\
+					ON basic.school_id = neighbors.school_id\
+					AND basic.year = neighbors.year;"
 
 	conn.query(query, function(error, result) {
 		if (error != null){
