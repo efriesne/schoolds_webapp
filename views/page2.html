@@ -5,12 +5,32 @@
     <meta charset="UTF-8">
     <title>The Road to Success</title>
     <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Karla|Roboto' rel='stylesheet' type='text/css'>
+
 	  <!--<script type="text/javascript" src="js/server.js"></script>-->
-    <script type="text/javascript" src="js/main.js"></script>
+    <!--<script src="js/jquery-3.2.1.min.js"></script>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
   </head>
   <body>
-    <h3>Predicting School Performance</h3>
-    <p>input parameters to see how a school will perform.</p>
+    <h1> Predicting School Performance</h1>
+    <p id="page-descrip"> Change the below school characteristics to observe how success has been impacted or predict future success based on past trends.</p>
 
+    <section class="main-content">
+    
+      <div id="sliders-wrapper">
+        <svg class="sliders-svg"></svg>
+
+      </div>
+      <br>
+      <div id="success-wrapper">
+        <svg class="success-svg">
+          <g class="success-vis"></g>
+        </svg>
+        <button class="predict-button" onclick="getSuccess()">Predict Success</button>
+      </div>
+    <script type="text/javascript" src="../js/page2.js"></script>
+    <link rel="stylesheet" type="text/css" href="../style/page2.css" media="screen">
+  </section>
   </body>
 </html>

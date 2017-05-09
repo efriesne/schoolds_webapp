@@ -3,7 +3,7 @@ var bodyParser = require('body-parser');
 var anyDB = require('any-db');
 var engines = require('consolidate');
 var path = require('path');
-
+var PythonShell = require('python-shell');
 var app = express();
 
 app.engine('html', engines.hogan); 
@@ -37,6 +37,8 @@ app.get('/page2.html', function(request, response){
 app.get('/neighbors.json', nearestNeighbors);
 
 app.get('/neighbors_info.json', neighborsInfo);
+
+app.get('/success', successPrediction);
 
 function nearestNeighbors(request, response) {
   	console.log(request);
@@ -83,6 +85,44 @@ function neighborsInfo(request, response) {
 			response.json(result.rows);
 		}
 	})
+}
+
+function successPrediction(request, response) {
+	var n = request.query
+	var fields = n.fields;
+	var values = n.values;
+	console.log(fields.concat(values));
+
+	var options = {
+	  	mode: 'text',
+	  	pythonPath: '/usr/local/bin/python3',
+	  	pythonOptions: ['-u'],
+	  	scriptPath: 'public/ml',
+	  	args: fields.concat(values)
+	};
+
+	PythonShell.run('edit_feat.py', options, function (err, results) {
+	  	if (err) throw err;
+
+		args = ['-test', 'public/ml/test.csv']
+
+		var options = {
+		  mode: 'text',
+		  pythonPath: '/usr/local/bin/python3',
+		  pythonOptions: ['-u'],
+		  scriptPath: 'public/ml',
+		  args: args
+		};
+
+	  	PythonShell.run('predict_success.py', options, function (err, results) {
+		  if (err) throw err;
+		  // results is an array consisting of messages collected during execution
+		  label = parseFloat(results[0])
+		  response.json(label);
+		  console.log('results: %j', results[0]);
+	  
+		});
+	});
 }
 
 //Start listening on port

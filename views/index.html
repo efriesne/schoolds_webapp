@@ -7,16 +7,19 @@
     <link rel="stylesheet" type="text/css" href="style/main.css" media="screen">
     <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
 	  <!--<script type="text/javascript" src="js/server.js"></script>-->
-    <script type="text/javascript" src="js/main.js"></script>
     <script src="js/jquery-3.2.1.min.js"></script>
+        <link href='http://fonts.googleapis.com/css?family=Karla|Roboto' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="js/main.js"></script>
+
   </head>
   <body>
     <section class="page-header">
+        <br>
         <h1 class="project-name">The Road to Success: Understanding Public School Success Metrics in Massachusetts</h1>
     </section>
 	
 	<div class="tab">
-		<button class="tablinks" onclick="displayPage(event, 'page1')">Map</button>
+		<button class="tablinks" id="page1tab" onclick="displayPage(event, 'page1')">Map</button>
     <button class="tablinks" onclick="displayPage(event, 'page2')">Classifier</button>
 	</div>
   <div id="page1" class="tabcontent">
@@ -24,7 +27,7 @@
     <iframe src="../page1.html" width="100%" height="1000px"></iframe>
   </div>
   <div id="page2" class="tabcontent">
-      <iframe src="../page2.html" width="100%" height="-9999px"></iframe>
+      <iframe src="../page2.html" width="100%" height="1000px"></iframe>
   </div>
 
   </body>

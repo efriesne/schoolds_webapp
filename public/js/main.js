@@ -1,4 +1,5 @@
 function displayPage(evt, pageName) {
+    console.log(evt)
       // Declare all variables
     var i, tabcontent, tablinks;
 
@@ -27,3 +28,5 @@ function getNearestNeighbors() {
         
     });
 }
+
+$('#page1tab').trigger('click');
