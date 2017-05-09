@@ -1,7 +1,3 @@
-//$( document ).ready(function() {
-//  $("#map_tab").trigger("click");
-//});
-
 function displayPage(evt, pageName) {
     console.log(evt)
       // Declare all variables
