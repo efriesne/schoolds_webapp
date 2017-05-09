@@ -68,7 +68,7 @@ function getMapData(request, response){
 		}
 	});
 }
->>>>>>> effef9dfde1b5ecc808096da161860068803e260
+
 
 function nearestNeighbors(request, response) {
   	console.log(request);
@@ -117,7 +117,7 @@ function neighborsInfo(request, response) {
 	})
 }
 
-<<<<<<< HEAD
+
 function successPrediction(request, response) {
 	var n = request.query
 	var fields = n.fields;
@@ -155,7 +155,7 @@ function successPrediction(request, response) {
 		});
 	});
 }
-=======
+
 function getCharacteristics(request, response) {
 
 	var n = request.query;
@@ -178,7 +178,7 @@ function getCharacteristics(request, response) {
 		}
 	})
 }	
->>>>>>> effef9dfde1b5ecc808096da161860068803e260
+
 
 //Start listening on port
 app.listen(8080, function(error, response) {
