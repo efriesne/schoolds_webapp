@@ -56,7 +56,9 @@ function loadMap(allData) {
           return d.year == current_year;
         })
 
-        data.sort(order);
+        data.sort(function(a, b){
+          return b.total - a.total;
+        });
 
 
         var svg = d3.select("#chart").append("svg")
