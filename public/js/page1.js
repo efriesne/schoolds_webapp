@@ -325,6 +325,7 @@ function getCharacteristics(school) {
 function formatData(res) {
 
     res = res[0];
+    console.log("Raw characteristics!");
     console.log(res);
 
     var school_name = res.school;
@@ -333,9 +334,9 @@ function formatData(res) {
     var gender = [{val: res.male, label: "Male"}, {val: res.female, label: "Female"}];
     var language = [{val: res.ELL_per, label: "ELL"}, {val: 100-res.ELL_per, label: "Non-ELL"}];
     var disabilities = [{val: res.disabilities_per, label: "Disabilities"}, {val: 100-res.disabilities_per, label: "No Disabilities"}];
-    var lunch = [{val: res.free_lunch_per, label: "Free Lunch"}, {val: res.reduced_lunch_per, label: "Reduced Lunch"}, {val: 100-res.free_lunch_per-res.reduced_lunch_per, label: "Full Price"}];
+    var income = [{val: res.low_inc_per, label: "Low Income"}, {val: 100-res.low_inc_per, label: "Non Low-Income"}];
 
-    var data = [race, gender, language, disabilities, lunch];
+    var data = [race, gender, language, disabilities, income];
 
     showCharacteristics(school_name, data);
 }
@@ -344,7 +345,7 @@ function showCharacteristics(school_name, data) {
   console.log("characteristics!");
   console.log(data);
 
-  var labels = ["Race", "Gender", "Language", "Disability Status", "Free Lunch Status"];
+  var labels = ["Race", "Gender", "Language", "Disability Status", "Income"];
 
   var chars_selector = $(".chars");
   chars_selector.empty();
