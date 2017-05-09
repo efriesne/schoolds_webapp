@@ -108,6 +108,7 @@ function loadMap(allData) {
                     return color(d);
                   })
             })
+
         d3.select("#charter")
             .on("click", function(d,i) {
                 dot.data(data)
@@ -210,15 +211,14 @@ function loadMap(allData) {
           console.log("This is the list of neighbors!");
           console.log(id_list);
 
+          //Reset from last nearest neighbors
           svg.selectAll('.dot').each( function(d) {
+
             if (id_list.indexOf(d.school_id) == -1){
                 d3.select(this)
                   .attr('opacity', 0.05)
                   .attr('stroke', 'none');
-            }else if(d.school_id == school_id){
-                d3.select(this)
-                  .attr('fill', 'orange');
-            } 
+            }
           });
 
           getNeighbors(d);
@@ -266,7 +266,7 @@ function loadMap(allData) {
             return d.school;
         }
 
-        svg.call(zoom);
+        d3.select("#chart").call(zoom);
 
         function position(dot) {
           dot.attr("cx", function(d) {
