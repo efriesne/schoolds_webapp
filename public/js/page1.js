@@ -118,7 +118,11 @@ function loadMap(allData) {
             })
         d3.select("#reset")
             .on("click", function(d,i) {
-                dot.data(data).attr("opacity", 1)});
+                dot.data(data)
+                  .attr("opacity", 1)
+                  .attr("fill", function(d) {
+                    return color(d);
+                  })});
 
         d3.select("#math")
             .on("click", function(d,i) {
@@ -195,8 +199,11 @@ function loadMap(allData) {
                 d3.select(this)
                   .attr('opacity', 0.05)
                   .attr('stroke', 'none');
-              } 
-            });
+            }//else if(d.school_id == school_id){
+                //d3.select(this)
+                  //.attr('fill', 'orange');
+            //} 
+          });
 
           getNeighbors(d);
           getCharacteristics(d);

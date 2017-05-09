@@ -1,3 +1,7 @@
+//$( document ).ready(function() {
+//  $("#map_tab").trigger("click");
+//});
+
 function displayPage(evt, pageName) {
       // Declare all variables
     var i, tabcontent, tablinks;
@@ -17,4 +21,7 @@ function displayPage(evt, pageName) {
     // Show the current tab, and add an "active" class to the button that opened the tab
     document.getElementById(pageName).style.display = "block";
     evt.currentTarget.className += " active";
+
+
 }
+

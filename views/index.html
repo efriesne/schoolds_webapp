@@ -7,8 +7,9 @@
     <link rel="stylesheet" type="text/css" href="style/main.css" media="screen">
     <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
 	  <!--<script type="text/javascript" src="js/server.js"></script>-->
-    <script type="text/javascript" src="js/main.js"></script>
     <script src="js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    
   </head>
   <body>
     <section class="page-header">
@@ -16,8 +17,8 @@
     </section>
 	
 	<div class="tab">
-		<button class="tablinks" onclick="displayPage(event, 'page1')">Map</button>
-    <button class="tablinks" onclick="displayPage(event, 'page2')">Classifier</button>
+		<button id="map_tab" class="tablinks" onclick="displayPage(event, 'page1')">Map</button>
+    <button id="classifier_tab" class="tablinks" onclick="displayPage(event, 'page2')">Classifier</button>
 	</div>
   <div id="page1" class="tabcontent">
     
