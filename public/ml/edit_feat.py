@@ -29,7 +29,7 @@ if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
 	#parser.add_argument('-char_type', type=str, required=True, help='Path to characteristic type')
 	parser.add_argument('-fields', type=int, nargs='+', required=False, help='Path to field to update')
-	parser.add_argument('-vals', type=float, nargs='+', required=False, help='Path to field to update')
+	parser.add_argument('-vals', nargs='+', required=False, help='Path to field to update')
 	opts = parser.parse_args()
 	if opts.fields == None or opts.vals == None:
 		exit(0)

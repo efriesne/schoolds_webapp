@@ -31,8 +31,8 @@ body {
 
 #sliders-wrapper {
   float: left;
-  margin-left: 20px;
-  width: 45%;
+  margin-left: 500px;
+  width: 40%;
   height: 100%;
 }
 
@@ -44,7 +44,7 @@ body {
 
 .success-svg {
   width: 600px;
-  height: 100%;
+  height: 60%;
 }
 
 .success-vis {
@@ -55,8 +55,19 @@ body {
 #success-wrapper{
     float: right;
     justify-content: center;
-    width: 50%;
+    width: 40%;
     height: 100%;
+}
+
+.selects {
+  margin-left: 100px;
+}
+
+.selector {
+  float: left;
+  margin: 10px;
+  margin-right: 40px;
+  font-size: 20px;
 }
 
 .slider {
@@ -90,20 +101,31 @@ text, font{
 
 }
 
-
+.select-label {
+  font-size: 20px;
+  float: left;
+  font-family: 'Roboto';
+}
 
 .slider-label {
-  font-size: 25px;
+  font-size: 20px;
+}
+
+.slider-group {
+  margin: 20px;
 }
 
 .group-label {
-  font-size: 40px;
+  font-size: 30px;
   font-weight: bold;
   text-decoration: underline;
+  font-family: 'Roboto';
+  margin: 0px;
 }
 
 .slider-result {
   font-size: 30px;
+  stroke: rgb(31, 119, 180);
 }
 
 .predict-label {
@@ -112,6 +134,9 @@ text, font{
 }
 
 .predict-button {
-  margin-left: 90px;
-  font-size: 40px;
+  margin-left: 10px;
+  font-size: 30px;
+  background-color: #555555;
+  color: white;
+  padding: 15px 32px;
 }

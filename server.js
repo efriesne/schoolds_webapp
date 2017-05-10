@@ -135,14 +135,13 @@ function successPrediction(request, response) {
 	PythonShell.run('edit_feat.py', options, function (err, results) {
 	  	if (err) throw err;
 
-		args = ['-test', 'public/ml/test.csv']
 
 		var options = {
 		  mode: 'text',
 		  pythonPath: '/usr/local/bin/python3',
 		  pythonOptions: ['-u'],
 		  scriptPath: 'public/ml',
-		  args: args
+		  args: []
 		};
 
 	  	PythonShell.run('predict_success.py', options, function (err, results) {

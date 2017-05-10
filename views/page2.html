@@ -19,15 +19,68 @@
     <section class="main-content">
     
       <div id="sliders-wrapper">
+        <br>
+        <br>
+        <p class="group-label"> Basic School Characteristics </p>
+        <div class="selects">
+        <br>
+        <p class="select-label"> school type: </p>
+        <select id="56" class="selector">
+          <option id="1">Charter</option>
+          <option id="0">Non-Charter</option>
+          <option id="None">None</option>
+        </select>
+
+        <p class="select-label"> school level: </p>
+        <select id="57" class="selector">
+          <option id="Primary">Primary</option>
+          <option id="Middle">Middle</option>
+          <option id="High">High</option>
+          <option id="Other">Other</option>
+          <option id="None">None</option>
+        </select>
+        
+        
+        <p class="select-label"> year: </p>
+        <select id="1" class="selector" xml:id="year-select">
+          <option id="2002">2002</option>
+          <option id="2003">2003</option>
+          <option id="2004">2004</option>
+          <option id="2005">2005</option>
+          <option id="2006">2006</option>
+          <option id="2007">2007</option>
+          <option id="2008">2008</option>
+          <option id="2009">2009</option>
+          <option id="2010">2010</option>
+          <option id="2011">2011</option>
+          <option id="2012">2012</option>
+          <option id="2013">2013</option>
+          <option id="2014">2014</option>
+          <option id="2015">2015</option>
+          <option id="2016">2016</option>
+          <option id="2017">2017</option>
+          <option id="2018">2018</option>
+          <option id="2019">2019</option>
+          <option id="2020">2020</option>
+
+        </select>
+        </div>
         <svg class="sliders-svg"></svg>
 
       </div>
       <br>
       <div id="success-wrapper">
+               
+
+          <br>
         <svg class="success-svg">
+          
           <g class="success-vis"></g>
+
         </svg>
+        <br>
         <button class="predict-button" onclick="getSuccess()">Predict Success</button>
+               <button id="reset" class="predict-button"> Reset </button>
       </div>
     <script type="text/javascript" src="../js/page2.js"></script>
     <link rel="stylesheet" type="text/css" href="../style/page2.css" media="screen">
