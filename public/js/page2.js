@@ -10,10 +10,27 @@ xScale = scale for this slider
 id = slider id
 */
 
-function addSlider(parent, y, label, xScale, id) {
+function moveSlider(xScale) {
+	group = d3.select(this.parentNode.parentNode.parentNode)
+	console.log(group)
+	if (group.attr("id") == "race-sliders") {
+		var sum = 0
+		var sliders = group.selectAll(".slider-result").each(function(d) {
+			sum += parseInt(d.text)
+		})
+		if (sum > 100) {
+			return;
+		}
+	}
+	d3.select(this).attr("cx", xScale(xScale.invert(d3.event.x)));
+ 	result = parseInt(xScale.invert(d3.event.x))
+	d3.select(this.parentNode).select(".slider-result").text(result);	
+}
+
+function addSlider(parent, x, y, label, xScale, id) {
 	var slider = parent.append("g")
 		.attr("class", "slider")
-		.attr("transform", "translate(" + 350 + "," + y + ")")
+		.attr("transform", "translate(" + x + "," + y + ")")
 
 	slider.append("text")
 		.attr("class", "slider-label")
@@ -25,7 +42,7 @@ function addSlider(parent, y, label, xScale, id) {
 		.attr("class", "slider-result")
 		.attr("id", id)
 		.attr("text-anchor", "start")
-		.text("0")
+		.text("-")
 		.attr("transform", "translate(" + (xScale.range()[1]+17) + "," + 7 + ")")
 	var sliderTray = slider.append("line")
 		.attr("class", "slider-tray")
@@ -43,23 +60,57 @@ function addSlider(parent, y, label, xScale, id) {
 	      console.log("clicked");
 	    })
 	    .on("drag", function() {
-	      d3.select(this).attr("cx", xScale(xScale.invert(d3.event.x)));
-	      result = parseInt(xScale.invert(d3.event.x))
-			d3.select(this.parentNode).select(".slider-result").text(result);
-			console.log(result)
-	    })
-		.on("end", function() {
+	    	group = d3.select(this.parentNode.parentNode.parentNode)
 			result = parseInt(xScale.invert(d3.event.x))
+			curr = d3.select(this.parentNode).select(".slider-result").text();
 			d3.select(this.parentNode).select(".slider-result").text(result);
-			console.log(result)
+			if (group.attr("id") == "race-sliders") {
+				var sum = 0
+				var sliders = group.selectAll(".slider-result").each(function(d) {
+					val = d3.select(this).text()
+					if (val == "-") { val = "0"}
+					sum += parseInt(val)
+				})
+				console.log(sum)
+				if (sum > 100) {
+					d3.select(this.parentNode).select(".slider-result").text(curr);
+					return;
+				}
+			}
+			d3.select(this).attr("cx", xScale(xScale.invert(d3.event.x)));
+			if (result == -1) {
+				result = "-"
+			}
+			d3.select(this.parentNode).select(".slider-result").text(result);
+		})
+		.on("end", function() {
+			group = d3.select(this.parentNode.parentNode.parentNode)
+			result = parseInt(xScale.invert(d3.event.x))
+			curr = d3.select(this.parentNode).select(".slider-result").text();
+			d3.select(this.parentNode).select(".slider-result").text(result);
+			if (group.attr("id") == "race-sliders") {
+				var sum = 0
+				var sliders = group.selectAll(".slider-result").each(function(d) {
+					val = d3.select(this).text()
+					if (val == "-") { val = "0"}
+					sum += parseInt(val)
+				})
+				console.log(sum)
+				if (sum > 100) {
+					d3.select(this.parentNode).select(".slider-result").text(curr);
+					return;
+				}
+			}
+			d3.select(this).attr("cx", xScale(xScale.invert(d3.event.x)));
+			if (result == -1) {
+				result = "-"
+			}
+			d3.select(this.parentNode).select(".slider-result").text(result);
 		}))
 }
 
 function addSelect(parent, y, label, options, id) {
-	var select = parent.append("g")
-		.attr("class", "select")
-		.attr("transform", "translate(" + 350 + "," + y + ")")
-	select.append("text")
+	/*select.append("text")
 		.attr("class", "slider-label")
 		.text(label)
 		.attr("text-anchor", "end")
@@ -71,21 +122,21 @@ function addSelect(parent, y, label, options, id) {
 		.attr("text-anchor", "start")
 		.text("")
 		.attr("transform", "translate(" + 20 + "," + 7 + ")")
-		.attr("stroke", "white")
-	var bbox = select.node().getBBox()
+		.attr("stroke", "white")*/
 
-	selector = d3.select('#sliders-wrapper').append("select")
-		.attr("class", "select-selector")
+	selector = d3.select('.selects').append("select")
+		.attr("class", "selector")
 		.on("change", function(d) {
-			val = d3.select(this).property('value');
-			d3.select(id).text(result);
+			val = d3.select(this).attr("id");
+			console.log(val)
+			//d3.select(id).text(result);
 		})
-		.attr("transform", "translate(" + (-1*bbox.x) + "," + (-1*bbox.y) + ")")
 	var options = selector
 	  .selectAll('option')
 		.data(options).enter()
 		.append('option')
-			.text(function (d) { return d; });
+			.text(function (d) { return d.label; })
+			.attr("id", function (d) { return d.id})
 }
 //slider arr element: [id, max, label, type of selection, select arr (optional)]
 function addSliderGroup(parent, y, label, slider_arr) {
@@ -93,37 +144,62 @@ function addSliderGroup(parent, y, label, slider_arr) {
 	container = parent.append("g")
 		.attr("class", "slider-group")
 		.attr("transform", "translate(" + 10 + "," + y + ")");
-	container.append("text")
-		.attr("transform", "translate(" + 10 + "," + 10 + ")")
-		.text(label)
-		.attr("class", "group-label")
+	if (label != "") { 
+		container.append("text")
+			.attr("transform", "translate(" + 10 + "," + 10 + ")")
+			.text(label)
+			.attr("class", "group-label")
+			
+		transform_x = 260
+	} else {
+		transform_x = 260
+	}
 	sliders = container.append("g")
 		.attr("class", "slider-group")
 		.attr("transform", "translate(" + 0 + "," + 50 + ")");
 	for (var i = 0; i < slider_arr.length; i++) {
 		var scale = d3.scaleLinear()
-		    .domain([0, slider_arr[i][1]])
+		    .domain([-1, slider_arr[i][1]])
 		    .range([0, width])
 		    .clamp(true);
 		if (slider_arr[i][3] == "slider") {	
-			addSlider(sliders, (i)*36, slider_arr[i][2], scale,slider_arr[i][0])
+			addSlider(sliders, transform_x, (i)*36, slider_arr[i][2], scale,slider_arr[i][0])
 		} else if (slider_arr[i][3] == "select") {
 			addSelect(sliders, (i)*36, slider_arr[i][2], slider_arr[i][4],slider_arr[i][0])
 		}
 	}
+	return container
 }
 
 var svg = d3.select(".sliders-svg")
 var svg2 = d3.select(".success-svg")
 
-addSliderGroup(svg, 50, "School Charateristics", [[7, 4500, "enrollment", "slider"], [56, 1, "type", "select", ["Charter", "Non-charter"]],
-[57, 12, "level", "select", ["Primary", "Middle", "High", "Other"]]])
-addSliderGroup(svg, 200, "Teachers", [[30, 50, "teacher-student ratio", "slider"]])
-addSliderGroup(svg, 350, "Selected Population", [[11, 100, "first language not english %", "slider"],
+year_dict = []
+for (i = 2002; i < 2021; i++) {
+	year_dict.push({label: i, id: i})
+}
+
+
+/*
+var options = d3.select("#district-select")
+	  .selectAll('option')
+		.data(districts).enter()
+		.append('option')
+			.text(function (d) { return d; })
+			.attr("id", function (d) { return d})*/
+
+
+addSliderGroup(svg, 0, "", [[7, 4500, "enrollment", "slider"]])
+addSliderGroup(svg, 100, "Teachers", [[30, 50, "teacher-student ratio", "slider"]])
+addSliderGroup(svg, 215, "Selected Population", [[11, 100, "first language not english %", "slider"],
 	[13, 100,"english language learner %", "slider"], [15, 100, "students with disabilities %", "slider"],
 	 [17, 100, "low income %", "slider"]])
-addSliderGroup(svg, 600, "Race/Gender", [[38, 100, "male:female %", "slider"]])
-addSliderGroup(svg, 700, "Incidents", [[49, 100, "# of incidents", "slider"]])
+container = addSliderGroup(svg, 430, "Race", [[33, 100, "African American %", "slider"],
+	[34, 100, "Asian %", "slider"],[35, 100, "Hispanic %", "slider"]
+	,[36, 100, "White %", "slider"],[37, 100, "Native %", "slider"]])
+container.attr("id", "race-sliders")
+addSliderGroup(svg, 650, "Gender", [[38, 100, "male:female %", "slider"]])
+addSliderGroup(svg, 750, "Incidents", [[49, 5000, "# of incidents", "slider"]])
 
 var arc = d3.arc()
     .innerRadius(180)
@@ -131,7 +207,7 @@ var arc = d3.arc()
     .startAngle(0);
 
 successPred = svg2.select(".success-vis")
-	.attr("transform", "translate(" + 300 + "," + 400 + ")");;
+	.attr("transform", "translate(" + 240 + "," + 300 + ")");;
 
 arc1 = successPred.append("path")
 	.datum({endAngle: tau})
@@ -139,7 +215,7 @@ arc1 = successPred.append("path")
     .attr("d", arc);
 
 arc2 = successPred.append("path")
-.datum({endAngle: 0.127 * tau})
+.datum({endAngle: 0 * tau})
 .style("fill", "green")
 .attr("d", arc);
 
@@ -162,10 +238,35 @@ function getSuccess() {
 	var results = d3.selectAll(".slider-result").each(function(d) {
 		field = d3.select(this).attr("id")
 		value = d3.select(this).text()
-		if (value != "") {	
+		
+		if (value == "-"){
+			fields.push(field)
+			values.push("")
+		} else {
+			if (field == "38") {
+				female = 100 - parseInt(value)
+				fields.push("39")
+				values.push(female.toString())
+			}
 			fields.push(field)
 			values.push(value)
+			
 		}
+		
+	})
+	var results = d3.selectAll(".selector").each(function(d) {
+		value = d3.select(this).property("value")
+		field = d3.select(this).attr("id");
+		
+		if (value == "None") {
+			value = ""
+		} else {
+			if (field == "56") {
+				value = (value == "Charter") ? "1" : "0"
+			}
+		}
+		fields.push(field)
+		values.push(value)
 	})
 	console.log(fields)
 	console.log(values)
@@ -183,6 +284,21 @@ function getSuccess() {
         prediction.text(res)
     });
 }
+
+d3.select("#reset").on("click", function(d,i) {
+	d3.selectAll(".slider-result").each(function(d) {
+		d3.select(this).text("-")
+		d3.select(this.parentNode).select(".handle").attr("cx", 0);
+	})
+	d3.selectAll(".selector").each(function(d) {
+		if (d3.select(this).attr("id") == "1") {
+			d3.select(this).property("value", "2002")
+		} else {
+			d3.select(this).property("value", "None")
+		}
+	})
+	getSuccess()
+})
 
 
 
