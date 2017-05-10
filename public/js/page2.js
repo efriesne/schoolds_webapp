@@ -116,7 +116,7 @@ function addSliderGroup(parent, y, label, slider_arr) {
 var svg = d3.select(".sliders-svg")
 var svg2 = d3.select(".success-svg")
 
-addSliderGroup(svg, 50, "School Charateristics", [[7, 4500, "enrollment", "slider"], [56, 1, "type", "select", ["Charter", "Non-charter"]],
+addSliderGroup(svg, 50, "School Characteristics", [[7, 4500, "enrollment", "slider"], [56, 1, "type", "select", ["Charter", "Non-charter"]],
 [57, 12, "level", "select", ["Primary", "Middle", "High", "Other"]]])
 addSliderGroup(svg, 200, "Teachers", [[30, 50, "teacher-student ratio", "slider"]])
 addSliderGroup(svg, 350, "Selected Population", [[11, 100, "first language not english %", "slider"],
