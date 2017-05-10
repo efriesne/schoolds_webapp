@@ -174,10 +174,7 @@ function addSliderGroup(parent, y, label, slider_arr) {
 var svg = d3.select(".sliders-svg")
 var svg2 = d3.select(".success-svg")
 
-year_dict = []
-for (i = 2002; i < 2021; i++) {
-	year_dict.push({label: i, id: i})
-}
+
 
 
 /*
